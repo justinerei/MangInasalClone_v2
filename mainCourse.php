@@ -6,6 +6,8 @@ requireCustomerFacing();
 
 require_once "config/database.php";
 
+loadSessionUser();
+
 
 /*
 |--------------------------------------------------------------------------
@@ -148,33 +150,25 @@ foreach ($products as $product) {
 
     <div class="header-right">
 
-        <?php if ($isLoggedIn): ?>
+       <?php if ($isLoggedIn): ?>
 
-            <?php
+            <button class="btn-primary" type="button">
 
-            if ($role === "admin") {
-                $dashboard = "admin/dashboard.php";
-            } elseif ($role === "staff") {
-                $dashboard = "staff/dashboard.php";
-            } else {
-                $dashboard = "customer/dashboard.php";
-            }
+                <i class="fa-solid fa-user"></i>
 
-            ?>
+                <?php echo htmlspecialchars($username); ?>
 
-            <a
-                href="<?php echo $dashboard; ?>"
+            </button>
+
+            
+                href="logout.php"
                 style="text-decoration: none;"
+                title="Logout"
             >
-
-                <button class="btn-primary">
-
-                    <i class="fa-solid fa-user"></i>
-
-                    <?php echo htmlspecialchars($username); ?>
-
-                </button>
-
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                    style="color: var(--black); font-size: 1.1rem;"
+                ></i>
             </a>
 
         <?php else: ?>

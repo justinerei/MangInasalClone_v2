@@ -4,8 +4,7 @@ require_once "includes/auth.php";
 
 requireCustomerFacing();
 
-$isLoggedIn = isset($_SESSION["user_id"]);
-$username = $isLoggedIn ? $_SESSION["username"] : null;
+loadSessionUser();
 
 ?>
 
@@ -64,11 +63,13 @@ $username = $isLoggedIn ? $_SESSION["username"] : null;
 
         <?php if ($isLoggedIn): ?>
 
-            <a href="customer/dashboard.php" style="text-decoration: none;">
-                <button class="btn-primary">
-                    <i class="fa-solid fa-user"></i>
-                    <?php echo htmlspecialchars($username); ?>
-                </button>
+            <button class="btn-primary" type="button">
+                <i class="fa-solid fa-user"></i>
+                <?php echo htmlspecialchars($username); ?>
+            </button>
+
+            <a href="logout.php" style="text-decoration: none;" title="Logout">
+                <i class="fa-solid fa-right-from-bracket" style="color: var(--black); font-size: 1.1rem;"></i>
             </a>
 
         <?php else: ?>

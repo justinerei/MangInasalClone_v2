@@ -71,22 +71,13 @@ $isLoggedIn = isset($_SESSION["user_id"]);
 
       <?php if ($isLoggedIn): ?>
 
-        <a href="<?php
-          if ($role === "admin") {
-              echo "admin/dashboard.php";
-          } elseif ($role === "staff") {
-              echo "staff/dashboard.php";
-          } else {
-              echo "customer/dashboard.php";
-          }
-        ?>"
-        style="text-decoration: none;">
+        <button class="btn-primary" type="button">
+          <i class="fa-solid fa-user"></i>
+          <?php echo htmlspecialchars($username); ?>
+        </button>
 
-          <button class="btn-primary">
-            <i class="fa-solid fa-user"></i>
-            <?php echo htmlspecialchars($username); ?>
-          </button>
-
+        <a href="logout.php" style="text-decoration: none;" title="Logout">
+          <i class="fa-solid fa-right-from-bracket" style="color: var(--black); font-size: 1.1rem;"></i>
         </a>
 
       <?php else: ?>

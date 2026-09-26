@@ -149,4 +149,22 @@ function requireCustomerFacing()
     }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Load the current session user into $isLoggedIn / $username / $role
+|--------------------------------------------------------------------------
+| Every customer-facing page needs these three variables for its header.
+| Pulling the logic into one function means it can't quietly go missing
+| from one page while staying correct on the others.
+*/
+
+function loadSessionUser()
+{
+    global $isLoggedIn, $username, $role;
+
+    $isLoggedIn = isset($_SESSION['user_id']);
+    $username = $isLoggedIn ? $_SESSION['username'] : null;
+    $role = $isLoggedIn ? $_SESSION['role'] : null;
+}
+
 ?>
