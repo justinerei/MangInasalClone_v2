@@ -1,0 +1,442 @@
+<?php
+
+session_start();
+
+require_once "config/database.php";
+
+$isLoggedIn = isset($_SESSION["user_id"]);
+$username = $isLoggedIn ? $_SESSION["username"] : null;
+$role = $isLoggedIn ? $_SESSION["role"] : null;
+
+
+/*
+|--------------------------------------------------------------------------
+| Get Products
+|--------------------------------------------------------------------------
+*/
+
+$categories = [
+    "Solo Meal" => "solo-meal",
+    "Must Try" => "must-try",
+    "Family Fiesta" => "family-fiesta"
+];
+
+$products = [];
+
+$stmt = $conn->prepare(
+    "SELECT product_id, product_name, description, category, price, quantity, image_path
+     FROM products
+     WHERE category IN ('Solo Meal', 'Must Try', 'Family Fiesta')
+     ORDER BY product_id ASC"
+);
+
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+while ($row = $result->fetch_assoc()) {
+    $products[] = $row;
+}
+
+$stmt->close();
+
+
+/*
+|--------------------------------------------------------------------------
+| Group Products By Category
+|--------------------------------------------------------------------------
+*/
+
+$groupedProducts = [
+    "Solo Meal" => [],
+    "Must Try" => [],
+    "Family Fiesta" => []
+];
+
+foreach ($products as $product) {
+
+    if (isset($groupedProducts[$product["category"]])) {
+        $groupedProducts[$product["category"]][] = $product;
+    }
+
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mang Inasal | Main Course</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
+
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="images/favicon.ico"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-left">
+
+        <a href="index.php">
+
+            <img
+                src="images/logo.png"
+                alt="Mang Inasal Logo"
+                class="logo"
+            >
+
+        </a>
+
+    </div>
+
+
+    <nav class="header-center">
+
+        <ul>
+
+            <li>
+                <a href="index.php">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="mainCourse.php" class="active">
+                    Main Course
+                </a>
+            </li>
+
+            <li>
+                <a href="drinks.php">
+                    Drinks
+                </a>
+            </li>
+
+            <li>
+                <a href="dessert.php">
+                    Dessert
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <div class="header-right">
+
+        <?php if ($isLoggedIn): ?>
+
+            <?php
+
+            if ($role === "admin") {
+                $dashboard = "admin/dashboard.php";
+            } elseif ($role === "staff") {
+                $dashboard = "staff/dashboard.php";
+            } else {
+                $dashboard = "customer/dashboard.php";
+            }
+
+            ?>
+
+            <a
+                href="<?php echo $dashboard; ?>"
+                style="text-decoration: none;"
+            >
+
+                <button class="btn-primary">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    <?php echo htmlspecialchars($username); ?>
+
+                </button>
+
+            </a>
+
+        <?php else: ?>
+
+            <a
+                href="login.php"
+                style="text-decoration: none;"
+            >
+
+                <button class="btn-primary">
+                    Login
+                </button>
+
+            </a>
+
+        <?php endif; ?>
+
+
+        <a
+            href="cart.php"
+            style="text-decoration: none;"
+        >
+
+            <div class="cart-container">
+
+                <i
+                    class="fa-solid fa-cart-shopping cart-icon"
+                    style="color: var(--black);"
+                ></i>
+
+                <span
+                    class="cart-badge"
+                    id="cart-badge"
+                >
+                    0
+                </span>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="container page-content">
+
+
+    <!-- FILTER -->
+
+    <div class="filter-section">
+
+        <span class="filter-label">
+            Filter by:
+        </span>
+
+        <button
+            class="filter-chip active"
+            data-filter="solo-meal"
+        >
+            Solo Meal
+        </button>
+
+        <button
+            class="filter-chip"
+            data-filter="must-try"
+        >
+            Must Try!
+        </button>
+
+        <button
+            class="filter-chip"
+            data-filter="family-fiesta"
+        >
+            Family Fiesta
+        </button>
+
+    </div>
+
+
+    <!-- SOLO MEAL -->
+
+    <section
+        class="menu-category"
+        id="solo-meal"
+        data-category="solo-meal"
+    >
+
+        <h3 class="category-title">
+            Solo Meal
+        </h3>
+
+        <hr class="category-divider">
+
+
+        <div class="menu-grid">
+
+            <?php foreach ($groupedProducts["Solo Meal"] as $product): ?>
+
+                <article class="menu-card">
+
+                    <img
+                        src="<?php echo htmlspecialchars($product["image_path"]); ?>"
+                        alt="<?php echo htmlspecialchars($product["product_name"]); ?>"
+                    >
+
+                    <h4 class="card-title">
+                        <?php echo htmlspecialchars($product["product_name"]); ?>
+                    </h4>
+
+                    <p class="card-desc">
+                        <?php echo htmlspecialchars($product["description"]); ?>
+                    </p>
+
+                    <p class="card-price">
+                        ₱<?php echo number_format($product["price"], 2); ?>
+                    </p>
+
+                    <button
+                        class="btn-primary add-to-cart-btn"
+                        data-product-id="<?php echo $product["product_id"]; ?>"
+                    >
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add to Cart
+
+                    </button>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </section>
+
+
+    <!-- MUST TRY -->
+
+    <section
+        class="menu-category"
+        id="must-try"
+        data-category="must-try"
+    >
+
+        <h3 class="category-title">
+            Must Try!
+        </h3>
+
+        <hr class="category-divider">
+
+
+        <div class="menu-grid">
+
+            <?php foreach ($groupedProducts["Must Try"] as $product): ?>
+
+                <article class="menu-card">
+
+                    <img
+                        src="<?php echo htmlspecialchars($product["image_path"]); ?>"
+                        alt="<?php echo htmlspecialchars($product["product_name"]); ?>"
+                    >
+
+                    <h4 class="card-title">
+                        <?php echo htmlspecialchars($product["product_name"]); ?>
+                    </h4>
+
+                    <p class="card-desc">
+                        <?php echo htmlspecialchars($product["description"]); ?>
+                    </p>
+
+                    <p class="card-price">
+                        ₱<?php echo number_format($product["price"], 2); ?>
+                    </p>
+
+                    <button
+                        class="btn-primary add-to-cart-btn"
+                        data-product-id="<?php echo $product["product_id"]; ?>"
+                    >
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add to Cart
+
+                    </button>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </section>
+
+
+    <!-- FAMILY FIESTA -->
+
+    <section
+        class="menu-category"
+        id="family-fiesta"
+        data-category="family-fiesta"
+    >
+
+        <h3 class="category-title">
+            Family Fiesta
+        </h3>
+
+        <hr class="category-divider">
+
+
+        <div class="menu-grid">
+
+            <?php foreach ($groupedProducts["Family Fiesta"] as $product): ?>
+
+                <article class="menu-card">
+
+                    <img
+                        src="<?php echo htmlspecialchars($product["image_path"]); ?>"
+                        alt="<?php echo htmlspecialchars($product["product_name"]); ?>"
+                    >
+
+                    <h4 class="card-title">
+                        <?php echo htmlspecialchars($product["product_name"]); ?>
+                    </h4>
+
+                    <p class="card-desc">
+                        <?php echo htmlspecialchars($product["description"]); ?>
+                    </p>
+
+                    <p class="card-price">
+                        ₱<?php echo number_format($product["price"], 2); ?>
+                    </p>
+
+                    <button
+                        class="btn-primary add-to-cart-btn"
+                        data-product-id="<?php echo $product["product_id"]; ?>"
+                    >
+
+                        <i class="fa-solid fa-cart-plus"></i>
+
+                        Add to Cart
+
+                    </button>
+
+                </article>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
