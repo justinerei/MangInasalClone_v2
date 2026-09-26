@@ -66,7 +66,7 @@ function requireRole($allowedRole)
                 You are not authorized to access this page.
             </p>
 
-            <a href="../index.html">
+            <a href="/index.php">
                 Return to Mang Inasal
             </a>
 
