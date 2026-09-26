@@ -40,35 +40,67 @@ function requireRole($allowedRole)
         <html>
         <head>
             <title>Access Denied</title>
+
             <style>
+
                 body {
                     font-family: Arial, sans-serif;
                     text-align: center;
                     padding-top: 100px;
+                    background-color: #f5f5f5;
+                }
+
+                .error-box {
+                    background-color: white;
+                    width: 400px;
+                    max-width: 90%;
+                    margin: auto;
+                    padding: 40px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
                 }
 
                 h1 {
                     color: #b30000;
                 }
 
-                a {
-                    text-decoration: none;
-                    color: #0066cc;
+                p {
+                    color: #555;
                 }
+
+                a {
+                    display: inline-block;
+                    margin-top: 15px;
+                    padding: 10px 20px;
+                    background-color: #2D9751;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 6px;
+                }
+
+                a:hover {
+                    background-color: #1D4F1F;
+                }
+
             </style>
+
         </head>
 
         <body>
 
-            <h1>Access Denied</h1>
+            <div class='error-box'>
 
-            <p>
-                You are not authorized to access this page.
-            </p>
+                <h1>Access Denied</h1>
 
-            <a href="/index.php">
-                Return to Mang Inasal
-            </a>
+                <p>
+                    You are not authorized to access this page.
+                </p>
+
+                <a href='../index.php'>
+                    Return to Mang Inasal
+                </a>
+
+            </div>
 
         </body>
         </html>
@@ -88,6 +120,33 @@ function requireRole($allowedRole)
 function isLoggedIn()
 {
     return isset($_SESSION['user_id']);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Keep admin/staff out of the customer-facing site
+|--------------------------------------------------------------------------
+| Call this at the top of root-level pages (index.php, mainCourse.php,
+| drinks.php, dessert.php, cart.php). Guests and customers pass through
+| untouched; admin/staff get bounced to their own dashboard instead.
+*/
+
+function requireCustomerFacing()
+{
+    if (!isset($_SESSION['role'])) {
+        return;
+    }
+
+    if ($_SESSION['role'] === 'admin') {
+        header("Location: admin/dashboard.php");
+        exit();
+    }
+
+    if ($_SESSION['role'] === 'staff') {
+        header("Location: staff/dashboard.php");
+        exit();
+    }
 }
 
 ?>
