@@ -2,7 +2,7 @@
 
 require_once "../includes/auth.php";
 
-requireRole("customer");
+requireRole("staff");
 
 ?>
 
@@ -12,13 +12,13 @@ requireRole("customer");
 
 <head>
 
-    <title>Customer Dashboard</title>
+    <title>Staff Dashboard</title>
 
 </head>
 
 <body>
 
-    <h1>Customer Dashboard</h1>
+    <h1>Staff Dashboard</h1>
 
     <p>
         Welcome,
@@ -32,15 +32,14 @@ requireRole("customer");
 
     <hr>
 
-    <p>
-        You are logged in as a customer.
-    </p>
+    <h2>Staff Functions</h2>
 
-    <a href="../index.html">
-        Browse Menu
-    </a>
+    <ul>
+        <li>View Incoming Orders</li>
+        <li>Update Order Status</li>
+    </ul>
 
-    <br><br>
+    <br>
 
     <a href="../logout.php">
         Logout

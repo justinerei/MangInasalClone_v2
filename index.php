@@ -1,10 +1,10 @@
 <?php
 
-session_start();
+require_once "includes/auth.php";
+
+requireCustomerFacing();
 
 $isLoggedIn = isset($_SESSION["user_id"]);
-$username = $isLoggedIn ? $_SESSION["username"] : null;
-$role = $isLoggedIn ? $_SESSION["role"] : null;
 
 ?>
 

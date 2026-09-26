@@ -36,7 +36,7 @@ requireRole("customer");
         You are logged in as a customer.
     </p>
 
-    <a href="../index.html">
+    <a href="../index.php">
         Browse Menu
     </a>
 
