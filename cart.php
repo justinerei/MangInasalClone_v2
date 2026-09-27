@@ -212,7 +212,10 @@ loadSessionUser();
             <img src="images/logo.png" alt="Mang Inasal" class="receipt-logo">
             <h2>Order Receipt</h2>
             <p id="receipt-date"></p>
+            <p id="receipt-order-number" style="display: none;"></p>
         </div>
+
+        <div id="checkout-error" class="alert alert-error" style="display: none;"></div>
 
         <div class="receipt-body">
 
@@ -248,6 +251,12 @@ loadSessionUser();
 
 </div>
 
+
+<script>
+    window.mangInasalUser = {
+        loggedIn: <?php echo json_encode($isLoggedIn); ?>
+    };
+</script>
 
 <script src="script.js"></script>
 

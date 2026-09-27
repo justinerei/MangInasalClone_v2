@@ -278,6 +278,22 @@ document.addEventListener("DOMContentLoaded", function () {
         const cart = getCart();
         if (cart.length === 0) return;
 
+        // Checkout requires an account -- bounce guests to login instead
+        // of letting them reach a request that the backend will reject.
+        if (window.mangInasalUser && !window.mangInasalUser.loggedIn) {
+            window.location.href = "login.php";
+            return;
+        }
+
+        hideCheckoutError();
+        resetFinalizeButton();
+
+        const orderNumberEl = document.getElementById("receipt-order-number");
+        if (orderNumberEl) {
+            orderNumberEl.style.display = "none";
+            orderNumberEl.textContent = "";
+        }
+
         const list = document.getElementById("receipt-items");
         list.innerHTML = "";
 
@@ -317,10 +333,98 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("receipt-modal").classList.add("hidden");
     }
 
+    function showCheckoutError(message) {
+        const errorEl = document.getElementById("checkout-error");
+        if (!errorEl) return;
+        errorEl.textContent = message;
+        errorEl.style.display = "block";
+    }
+
+    function hideCheckoutError() {
+        const errorEl = document.getElementById("checkout-error");
+        if (!errorEl) return;
+        errorEl.style.display = "none";
+        errorEl.textContent = "";
+    }
+
+    function resetFinalizeButton() {
+        const btn = document.getElementById("finalize-order");
+        if (!btn) return;
+        btn.disabled = false;
+        btn.textContent = "Confirm Order";
+    }
+
     function finalizeOrder() {
-        saveCart([]);
-        closeReceipt();
-        renderCart();
+        const cart = getCart();
+        if (cart.length === 0) return;
+
+        const btn = document.getElementById("finalize-order");
+        const ageInput = document.getElementById("age-input");
+        const checkbox = document.getElementById("senior-checkbox");
+
+        hideCheckoutError();
+
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Processing...";
+        }
+
+        const payload = {
+            items: cart.map(function (item) {
+                return { id: item.id, qty: item.qty };
+            }),
+            age: ageInput ? parseInt(ageInput.value, 10) || 0 : 0,
+            seniorDiscount: !!(checkbox && checkbox.checked && !checkbox.disabled)
+        };
+
+        fetch("checkout.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+            .then(function (response) {
+                return response.json().then(function (data) {
+                    return { status: response.status, data: data };
+                });
+            })
+            .then(function (result) {
+                const data = result.data;
+
+                if (result.status === 401 && data.redirect) {
+                    window.location.href = data.redirect;
+                    return;
+                }
+
+                if (!data.success) {
+                    showCheckoutError(data.message || "Something went wrong. Please try again.");
+                    resetFinalizeButton();
+                    return;
+                }
+
+                // Server-confirmed totals replace the client-side preview.
+                setText("receipt-subtotal", formatPeso(data.subtotal));
+                setText("receipt-discount", "-" + formatPeso(data.discount));
+                setText("receipt-shipping", formatPeso(data.shipping));
+                setText("receipt-total", formatPeso(data.total));
+
+                const orderNumberEl = document.getElementById("receipt-order-number");
+                if (orderNumberEl) {
+                    orderNumberEl.textContent = "Order #" + data.orderId + " confirmed";
+                    orderNumberEl.style.display = "block";
+                }
+
+                saveCart([]);
+                renderCart();
+
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = "Order Placed";
+                }
+            })
+            .catch(function () {
+                showCheckoutError("Could not reach the server. Please check your connection and try again.");
+                resetFinalizeButton();
+            });
     }
 
 
