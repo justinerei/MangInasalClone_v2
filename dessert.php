@@ -135,7 +135,7 @@ $stmt->close();
 
             </button>
 
-            
+            <a
                 href="logout.php"
                 style="text-decoration: none;"
                 title="Logout"

@@ -151,7 +151,6 @@ foreach ($products as $product) {
     <div class="header-right">
 
        <?php if ($isLoggedIn): ?>
-
             <button class="btn-primary" type="button">
 
                 <i class="fa-solid fa-user"></i>
@@ -160,7 +159,7 @@ foreach ($products as $product) {
 
             </button>
 
-            
+            <a            
                 href="logout.php"
                 style="text-decoration: none;"
                 title="Logout"
