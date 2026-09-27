@@ -124,66 +124,50 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <title>Login - Mang Inasal</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth-style.css">
+
 </head>
 
 <body>
 
-    <h1>Login</h1>
+<div class="auth-page">
 
-    <?php if ($error !== ""): ?>
+    <div class="auth-card">
 
-        <p style="color: red;">
-            <?= htmlspecialchars($error) ?>
+        <img src="images/logo.png" alt="Mang Inasal" class="auth-logo">
+
+        <h1>Welcome Back</h1>
+        <p class="auth-subtitle">Log in to your Mang Inasal account</p>
+
+        <?php if ($error !== ""): ?>
+            <div class="auth-alert error"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+
+        <form method="POST" class="auth-form">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn-primary">Login</button>
+
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account? <a href="register.php">Register</a>
         </p>
 
-    <?php endif; ?>
+    </div>
 
-
-    <form method="POST">
-
-        <div>
-
-            <label>
-                Username
-            </label>
-
-            <br>
-
-            <input
-                type="text"
-                name="username"
-                required
-            >
-
-        </div>
-
-        <br>
-
-
-        <div>
-
-            <label>
-                Password
-            </label>
-
-            <br>
-
-            <input
-                type="password"
-                name="password"
-                required
-            >
-
-        </div>
-
-        <br>
-
-
-        <button type="submit">
-            Login
-        </button>
-
-    </form>
+</div>
 
 </body>
 

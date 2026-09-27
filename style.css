@@ -1132,3 +1132,117 @@ header {
     padding: 20px;
   }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Login / Register page styling
+|--------------------------------------------------------------------------
+| Built ON TOP of style.css -- link style.css first, this file second.
+| A single centered card reusing the site's green/Poppins branding and
+| its existing .btn-primary button, without pulling in the full header/nav.
+*/
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--off-white);
+  padding: 20px;
+}
+
+.auth-card {
+  background-color: var(--white);
+  border-radius: 14px;
+  padding: 40px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.auth-logo {
+  display: block;
+  margin: 0 auto 20px;
+  height: 56px;
+}
+
+.auth-card h1 {
+  text-align: center;
+  color: var(--dark-green);
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  margin-bottom: 24px;
+}
+
+.auth-form .form-group {
+  margin-bottom: 16px;
+}
+
+.auth-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+.auth-form .btn-primary {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.auth-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 0.85rem;
+}
+
+.auth-alert.error {
+  background-color: #FBEAEA;
+  color: #A32626;
+  border: 1px solid #F3C2C2;
+}
+
+.auth-alert.success {
+  background-color: #E4F6E9;
+  color: #1D4F1F;
+  border: 1px solid #B7E4C3;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+.auth-footer a {
+  color: var(--primary-green);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}

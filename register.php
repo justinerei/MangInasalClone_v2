@@ -108,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -120,100 +119,59 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <title>Register - Mang Inasal</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth-style.css">
+
 </head>
 
 <body>
 
-    <h1>Create Account</h1>
+<div class="auth-page">
 
-    <?php if ($error !== ""): ?>
+    <div class="auth-card">
 
-        <p style="color: red;">
-            <?= htmlspecialchars($error) ?>
+        <img src="images/logo.png" alt="Mang Inasal" class="auth-logo">
+
+        <h1>Create Account</h1>
+        <p class="auth-subtitle">Join Mang Inasal to start ordering</p>
+
+        <?php if ($error !== ""): ?>
+            <div class="auth-alert error"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+
+        <?php if ($success !== ""): ?>
+            <div class="auth-alert success"><?= htmlspecialchars($success) ?></div>
+        <?php endif; ?>
+
+        <form method="POST" class="auth-form">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="btn-primary">Register</button>
+
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? <a href="login.php">Login</a>
         </p>
 
-    <?php endif; ?>
+    </div>
 
-
-    <?php if ($success !== ""): ?>
-
-        <p style="color: green;">
-            <?= htmlspecialchars($success) ?>
-        </p>
-
-    <?php endif; ?>
-
-
-    <form method="POST">
-
-        <div>
-
-            <label>
-                Username
-            </label>
-
-            <br>
-
-            <input
-                type="text"
-                name="username"
-                required
-            >
-
-        </div>
-
-        <br>
-
-
-        <div>
-
-            <label>
-                Password
-            </label>
-
-            <br>
-
-            <input
-                type="password"
-                name="password"
-                required
-            >
-
-        </div>
-
-        <br>
-
-
-        <div>
-
-            <label>
-                Confirm Password
-            </label>
-
-            <br>
-
-            <input
-                type="password"
-                name="confirm_password"
-                required
-            >
-
-        </div>
-
-        <br>
-
-
-        <button type="submit">
-            Register
-        </button>
-
-    </form>
-
-    <br>
-
-    <a href="login.php">
-        Already have an account? Login
-    </a>
+</div>
 
 </body>
 
