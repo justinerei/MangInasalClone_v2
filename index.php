@@ -4,7 +4,7 @@ require_once "includes/auth.php";
 
 requireCustomerFacing();
 
-$isLoggedIn = isset($_SESSION["user_id"]);
+loadSessionUser();
 
 ?>
 

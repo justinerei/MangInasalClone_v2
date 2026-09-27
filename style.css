@@ -718,3 +718,417 @@ header {
   border-top: 2px dashed var(--border-color);
   padding-top: 15px;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Admin / Staff panel layout
+|--------------------------------------------------------------------------
+| Built ON TOP of style.css -- link style.css first, this file second.
+| Reuses the same --primary-green / --dark-green / --off-white tokens so
+| the panel still reads as "Mang Inasal", just arranged as a sidebar app
+| instead of the customer site's top nav.
+*/
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--off-white);
+}
+
+
+/* --- Sidebar --- */
+
+.admin-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background-color: var(--dark-green);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.admin-sidebar .sidebar-brand {
+  padding: 24px 20px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-sidebar .sidebar-brand span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.75;
+  margin-top: 2px;
+}
+
+.admin-sidebar nav {
+  flex: 1;
+  padding: 16px 0;
+}
+
+.admin-sidebar nav a {
+  display: block;
+  padding: 12px 20px;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0.85;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.admin-sidebar nav a:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  opacity: 1;
+}
+
+.admin-sidebar nav a.active {
+  background-color: var(--primary-green);
+  border-left-color: var(--yellow-green);
+  opacity: 1;
+}
+
+.admin-sidebar .sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.85rem;
+}
+
+.admin-sidebar .sidebar-footer a {
+  color: var(--yellow-green);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+
+/* --- Main content --- */
+
+.admin-main {
+  flex: 1;
+  padding: 32px 40px;
+}
+
+.admin-main h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.admin-main .page-subtitle {
+  color: var(--text-gray);
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+}
+
+
+/* --- Stat cards --- */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card .stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.stat-card .stat-value.warning {
+  color: #C0392B;
+}
+
+.stat-card .stat-label {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+
+/* --- Shortcut cards --- */
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.shortcut-card {
+  display: block;
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  text-decoration: none;
+  color: var(--black);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shortcut-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.shortcut-card .shortcut-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--dark-green);
+}
+
+.shortcut-card .shortcut-desc {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+}
+
+
+/* --- Alerts --- */
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.alert-success {
+  background-color: #E4F6E9;
+  color: #1D4F1F;
+  border: 1px solid #B7E4C3;
+}
+
+.alert-error {
+  background-color: #FBEAEA;
+  color: #A32626;
+  border: 1px solid #F3C2C2;
+}
+
+
+/* --- Tables --- */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+.admin-table th {
+  background-color: var(--off-white);
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.admin-table td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+.admin-table tr:hover td {
+  background-color: var(--off-white);
+}
+
+
+/* --- Order cards (used by admin/orders.php and staff/orders.php) --- */
+
+.order-card {
+  background-color: var(--white);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.order-card .order-card-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+.order-card ul {
+  margin: 0 0 0 20px;
+  color: var(--text-gray);
+  font-size: 0.9rem;
+}
+
+
+/* --- Forms --- */
+
+.admin-form .form-group {
+  margin-bottom: 16px;
+}
+
+.admin-form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.admin-form input[type="text"],
+.admin-form input[type="number"],
+.admin-form select,
+.admin-form textarea {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+}
+
+.admin-form input:focus,
+.admin-form select:focus,
+.admin-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-green);
+}
+
+.btn-secondary {
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-danger {
+  background-color: #C0392B;
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #922B21;
+}
+
+
+/* --- Badges --- */
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background-color: #FCEFCB;
+  color: #8A6D1D;
+}
+
+.status-badge.preparing {
+  background-color: #D6EAF8;
+  color: #1A5276;
+}
+
+.status-badge.completed {
+  background-color: #D5F5E3;
+  color: #1D4F1F;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  background-color: var(--off-white);
+  color: var(--black);
+  border: 1px solid var(--border-color);
+}
+
+
+/* --- Simple bar chart (top sellers) --- */
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.bar-row .bar-label {
+  width: 160px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.bar-row .bar-track {
+  flex: 1;
+  background-color: var(--off-white);
+  border-radius: 6px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.bar-row .bar-fill {
+  background-color: var(--primary-green);
+  height: 100%;
+  border-radius: 6px;
+}
+
+.bar-row .bar-value {
+  width: 70px;
+  text-align: right;
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+
+/* --- Responsive --- */
+
+@media (max-width: 768px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .admin-main {
+    padding: 20px;
+  }
+}
